@@ -1,0 +1,126 @@
+%\documentclass[letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out if you need a4paper
+%\documentclass[11 pt, onecolumn]{IEEEtran}
+
+\documentclass[10pt]{article}      % Use this line for a4 paper
+
+\usepackage{amsmath,amssymb,euscript,yfonts,psfrag,latexsym,dsfont,graphicx}
+\usepackage{bbm,color,amstext,wasysym,parskip,balance}
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage[pdftex,hidelinks]{hyperref}
+
+%\usepackage{amsthm}
+%\usepackage{refcheck}
+%\usepackage{showkeys}
+%\usepackage{epstopdf,hyperref,pdfsync,url}
+%\graphicspath{{./},{./figures/},{./Matlab/}}
+
+
+
+
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{problem}[thm]{Problem}
+\newtheorem{remark}[thm]{Remark}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{ex}[thm]{Example}
+
+\newcommand{\mR}{{\mathbb R}}
+\newcommand{\mD}{{\mathbb D}}
+\newcommand{\cH}{{\mathcal H}}
+\newcommand{\E}{{\mathbb E}}  % this is for expectation -- we can change
+\newcommand{\bx}{{\mathbf x}}
+\newcommand{\mE}{{\mathbb E}}
+\newcommand{\cD}{{\mathcal D}}
+\newcommand{\cN}{{\mathcal N}}
+\newcommand{\cM}{{\mathcal M}}
+\newcommand{\cR}{{\mathcal R}}
+\newcommand{\cS}{{\mathcal S}}
+\newcommand{\cC}{{\mathcal C}}
+\newcommand{\cP}{{\mathcal P}}
+\newcommand{\cU}{{\mathcal U}}
+\newcommand{\cL}{{\mathcal L}}
+\newcommand{\cT}{{\mathcal T}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\tr}{\operatorname{trace}}
+\newcommand{\f}{{\mathfrak f}}
+\newcommand{\g}{{\mathfrak g}}
+\newcommand{\range}{\cR}
+\newcommand{\rH}{{\rm H}}
+  %{\operatorname{range}}
+\newcommand{\trace}{\operatorname{tr}}
+\newcommand{\argmin}{\operatorname{argmin}}
+
+%\newcommand{\ignore}[1]{}
+
+%\def\spacingset#1{\def\baselinestretch{#1}\small\normalsize}
+%\setlength{\parskip}{10pt}
+%\setlength{\parindent}{20pt}
+%\spacingset{1}
+
+%\newcommand{\mike}{\color{magenta}}
+%\newcommand{\mmike}{\color{blue}}
+%\newcommand{\jk}[1]{{\color{red}{#1}}}
+
+%\newcommand{\rike}[1]{{\color{red}{#1}}}
+%\newcommand{\rike}{\color{red}}
+
+\definecolor{grey}{rgb}{0.6,0.6,0.6}
+\definecolor{lightgray}{rgb}{0.97,.99,0.99}
+
+%\IEEEoverridecommandlockouts
+%\overrideIEEEmargins
+
+%\renewcommand{\baselinestretch}{0.985}
+
+%\def\spacingset#1{\def\baselinestretch{#1}\small\normalsize}
+\setlength{\parskip}{5.3pt}
+%\setlength{\parindent}{10pt}
+%\spacingset{1}
+
+\setlength{\voffset}{2pt}
+
+\title{FLIR project - modelling noise in bolometer signal}
+\author{
+Project group (alphabetic order): \and
+Carl Ringqvist \texttt{carrin@kth.se} \and
+Giampaolo Mele \texttt{gmele@kth.se} \and
+H\aa kan Carlsson \texttt{hakcar@kth.se} \and
+Johan Karlsson \texttt{johan.karlsson@math.kth.se} \and
+M\"arta Barenthin Syberg \texttt{Marta.BarenthinSyberg@flir.se} \and
+Olof Runborg \texttt{olofr@nada.kth.se} \and
+Per Enqvist \texttt{penqvist@kth.se} \and
+Ulf Wållgren \texttt{ujgwallgren@gmail.com}
+}
+
+% Comment colours
+\usepackage{xcolor}
+\newcommand{\gm}[1]{{\color{blue}#1\color{black}}}
+
+\begin{document}
+
+
+\maketitle
+
+\input{abstract.tex}
+\input{introduction.tex}			% Carl
+\input{model_and_discretization.tex}		% Giampaolo
+\input{noise_model_and_discretization.tex} 	% Håkan Carlsson
+\input{numerical_experiments.tex}		% Carl
+\input{outlook.tex}				% Carl
+
+
+\bibliographystyle{plain}
+\bibliography{main_bib.bib}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% TeX-PDF-mode: 1
+%%% TeX-PDF-via-dvips-ps2pdf: 1
+%%% End:
