@@ -1,3 +1,81 @@
 \section{Numerical experiments}
+\subsection{Solution with noisy model}
+Plots from running the temperature simulation and succeeding integrator with the noisy scheme outlined in Equation~\eqref{eq:heat_balance_equation_noise_discr} are shown
+in Figure~\ref{fig:noisysol}. We see that the difference from the deterministic solution is marginal. 
+\begin{figure}
+ \begin{center}
+%\begin{minipage}[t]{0.35\textwidth}
+\includegraphics[scale=0.35]{gfx/int_time.jpg} 
+%\hfill
+%\end{minipage}
+%\begin{minipage}[t]{0.35\textwidth}
+\includegraphics[scale=0.35]{gfx/cooling.jpg}
+%\end{minipage}
+%\\
+\includegraphics[scale=0.35]{gfx/several_pulses.jpg}
+\includegraphics[scale=0.35]{gfx/vsamp.jpg}  	
+  \caption{Temperature and output signal development over time. Red: Noisy solution, Black: Deterministic solution}
+  \label{fig:noisysol}
+  \end{center}
+\end{figure}
 
+%\begin{center}
+%\begin{minipage}[t]{0.35\textwidth}
+%\includegraphics[scale=0.35]{gfx/int_time.jpg} 
+%\hfill
+%\end{minipage}
+%\begin{minipage}[t]{0.35\textwidth}
+%\includegraphics[scale=0.35]{gfx/cooling.jpg}
+%\end{minipage}
+%\\
+%\includegraphics[scale=0.35]{gfx/several_pulses.jpg} 	
+%\end{center}
 
+\begin{center}
+\includegraphics[scale=0.35]{gfx/vsamp.jpg} 	 
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.35]{gfx/NETD_as_function_of_sigma.eps} 	 
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.35]{gfx/NETS_Function_of_Integration_Time.eps} 	 
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.35]{gfx/Response_Function_of_Integration_Time.eps} 	 
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.35]{gfx/STD_Function_of_Integration_Time.eps} 	 
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.35]{gfx/pspec.png} 	 
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.2]{gfx/out_vs_inrad} 	 
+\end{center}
+
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[height=5cm]{gfx/int_time.jpg}
+%\caption{}
+%\end{center}
+%\end{figure}
+%
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[height=5cm]{gfx/cooling.jpg}
+%\caption{}
+%\end{center}
+%\end{figure}
+%
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[height=5cm]{gfx/several_pulses.jpg}
+%\caption{}
+%\end{center}
+%\end{figure}

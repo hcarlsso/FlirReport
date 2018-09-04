@@ -90,63 +90,89 @@ explained by Schottky for flicker noise in vacuum tubes~\cite{PhysRev.28.74}.
 % in metals.
 
 
-\subsection{Model with noise}
+\subsection{Noise model and simulation scheme}
 
 To compensate for the noise in the read-out circuit, one first has to
 determine how noise enters the differential equation governing the
-behavior of the system. The assumption we make is that the noise is
-additive in the bolometer resistance. By using the model in
-Figure~\ref{fig:johnsonEquivalentNoise}, we redefine the voltage over
+behavior of the system. The simplest possible solution is of course to 
+add a noise term of a normally distributed character to the left hand side 
+in Equation~\eqref{eq:heat_balance_equation}, rendering the theory for 
+diffusion processes readily available. More precisely we rewrite Equation~\eqref{eq:heat_balance_equation}
+as 
+\begin{align} \label{eq:heat_balance_equation_noise1}
+ CdT&=(\frac{V_b(t)^2}{R(T)}+\varepsilon(P_t+P_s -2A_s \sigma T^4)-G_{leg}(T-T_s))dt + K(t)dW \\
+ T(0)&=T_s	\nonumber
+\end{align}
+where $K$ is a function of time, and $W \sim N(0, dt)$.
+The function $K(t)$ is chosen according to the following heuristic.
+We expect the noise in the output to be the cause of resistor fluctuations.
+Motivated by the setup for Figure~\ref{fig:johnsonEquivalentNoise}, we thus redefine the voltage over
 the bolometer resistance as
 \begin{equation}
   \label{eq:randomvariable_transformation}
   V \rightarrow V_0 + \Delta V,
 \end{equation}
 where $V_0$ is the noise-less resistance over the voltage, and $\Delta
-V$ is the random variable representing the random fluctuations in the
-voltage. If there are several noise sources present in the resistance
-that are uncorrelated and additive, the resulting voltage is then
-\begin{equation}
-  \label{eq:randomvariable_transformation}
-  V \rightarrow V_0 + \sum_i \Delta V_i.
-\end{equation}
-Thus, assuming that the Flicker noise and the thermal noise are
-uncorrelated, they enter the voltage as two separate sources.
+V$ is a random variable representing the random fluctuations in the
+voltage. 
+%If there are several noise sources present in the resistance, 
+%we assume they can be modelled through a sum of stochastic variables
+%\begin{equation}
+%  \label{eq:randomvariable_transformation}
+%  V \rightarrow V_0 + \sum_i \Delta V_i.
+%\end{equation}
 
-
-The heat equation in Equation~\eqref{eq:heat_balance_equation}, can
-thus be modified to include the two noise sources as
+We thus want noise to enter the heat equation in Equation~\eqref{eq:heat_balance_equation} 
+roughly as 
 \begin{equation}
   \label{eq:heat_balance_equation_noise}
   C\frac{dT}{dt}=\frac{(V_b(t) + \Delta V)^2}{R(T)}+ f(T),
 \end{equation}
 where $\Delta V$ is the added noise term, accounting for the
 fluctuations in the resistance $R(T)$ and $f(T)$ are the other terms
-in Equation~\eqref{eq:heat_balance_equation}. We assume that $\Delta V
-\sim \mathcal{N} (0, \sigma)$.
-
-\subsection{Discretization of the stochastic model}
-
-
-The modified heat equation in~\eqref{eq:heat_balance_equation_noise}
-needs to be discretized in the time domain to be numerically
-simulated. We can rewrite~\eqref{eq:heat_balance_equation_noise} as
-a stochastic differential equation
+in Equation~\eqref{eq:heat_balance_equation}. 
+Expanding the square we get the equation
 \begin{equation}
-  \label{eq:heat_balance_equation_noise_SDE}
-  CdT=\frac{1}{R(T)} (V_b^2(t) + 2 V_b(t) \Delta V + (\Delta V)^2)dt + f(T) dt,
+  \label{eq:heat_balance_equation_noise_SDE1}
+  C\frac{dT}{dt}=\frac{1}{R(T)} (V_b^2(t) + 2 V_b(t) \Delta V + (\Delta V)^2) + f(T),
 \end{equation}
-In the discretization scheme, the term $V_b(t) \Delta V dt $ is
-written as $V_b(t) \Delta V \sqrt{\Delta t}$, where $\Delta t$ is the
-step-length in the Euler scheme. This is done to keep the variance of
-$\Delta V$ invariant of $\Delta t$. However, the term $(\Delta V)^2dt$
-cannot be discretized in the same manner, and a simple approximation
-is to set $(\Delta V)^2 dt \approx  \sigma^2$. Thus, discretized noisy
-heat equation can be written as
+If the squared noise term is negligible in the limit, we are left with
 \begin{equation}
-  \label{eq:heat_balance_equation_noise_SDE_disc}
-  C \Delta T=\frac{1}{R(T)} (V_b^2(t) \Delta t  + 2 V_b(t) \Delta V \sqrt{\Delta t}+ \sigma^{2}) + f(T) \Delta t
+  \label{eq:heat_balance_equation_noise_SDE2}
+  C\frac{dT}{dt}=\frac{1}{R(T)} (V_b^2(t) + 2 V_b(t) \Delta V  ) + f(T)
 \end{equation}
+Thus we chose $K(t)$ in Equation~\eqref{eq:heat_balance_equation_noise1}
+as $K(t) = 2 V_b(t) \sigma$, where $\sigma$ is a parameter to be calibrated or 
+physically motivated. The noisy heat development can now be simulated 
+in a well defined setting, with the dynamics independent of step size $\Delta t$:
+
+\begin{align} \label{eq:heat_balance_equation_noise_discr}
+ CT_{i+1}&=(\frac{V_b(t_{i})^2}{R(T_{i})}+\varepsilon(P_t+P_s -2A_s \sigma T^4)-G_{leg}(T-T_s))\Delta t + 2 V_b(t) \sigma \sqrt{\Delta t} W \\
+ T(0)&=T_s	\nonumber
+\end{align}
+
+where $W \sim N(0,1)$. 
+
+%\subsection{Discretization of the stochastic model}
+%The modified heat equation in~\eqref{eq:heat_balance_equation_noise}
+%needs to be discretized in the time domain to be numerically
+%simulated. We can rewrite~\eqref{eq:heat_balance_equation_noise} as
+%a stochastic differential equation
+%\begin{equation}
+%  \label{eq:heat_balance_equation_noise_SDE}
+%  CdT=\frac{1}{R(T)} (V_b^2(t) + 2 V_b(t) \Delta V + (\Delta V)^2)dt + f(T) dt,
+%\end{equation}
+%In the discretization scheme, the term $V_b(t) \Delta V dt $ is
+%written as $V_b(t) \Delta V \sqrt{\Delta t}$, where $\Delta t$ is the
+%step-length in the Euler scheme. This is done to keep the variance of
+%$\Delta V$ invariant of $\Delta t$. However, the term $(\Delta V)^2dt$
+%cannot be discretized in the same manner, and a simple approximation
+%is to set $(\Delta V)^2 dt \approx  \sigma^2$. Thus, discretized noisy
+%heat equation can be written as
+%\begin{equation}
+%  \label{eq:heat_balance_equation_noise_SDE_disc}
+%  C \Delta T=\frac{1}{R(T)} (V_b^2(t) \Delta t  + 2 V_b(t) \Delta V \sqrt{\Delta t}+ \sigma^{2}) + f(T) \Delta t
+%\end{equation}
 
 
 %%% Local Variables:
