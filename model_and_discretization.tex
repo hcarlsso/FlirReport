@@ -1,5 +1,5 @@
-\setlength{\belowcaptionskip}{-15pt}
-\setlength{\abovecaptionskip}{0pt}
+%\setlength{\belowcaptionskip}{-15pt}
+%\setlength{\abovecaptionskip}{0pt}
 \section{Model and discretization} \label{sec:model_disc}
 
 Each pixel of an IR camera can be modeled as the circuit in Figure~\ref{fig:circuit}.
@@ -32,22 +32,39 @@ A reasonable and realistic simulation of the bolometer response can be obtained 
 
 The solution of~\eqref{eq:heat_balance_equation} is illustrated in Figure~\ref{fig:solution_heat_balance_eq}. In the phase when the bias voltage is active, usually referred as \emph{integration time}, the temperature of the bolometer rises of circa $3K$. This is due to the fact that the current flowing through a component causes its overheat. When the bias voltage is not active, the temperature of the bolometer drops of circa $3K$, therefore we refer to this phase as \emph{cooling time}. See Figure~\ref{fig:solution_heat_balance_eq_splitted} for the illustration this such phenomena. The readout is illustrated in Figure~\ref{fig:Vout}. 
 
+% \begin{figure} 
+%  \includegraphics[scale=0.9]{gfx/fig1_several_pulses.eps} 
+%  \caption{Solution to the heat balance equation~\eqref{eq:heat_balance_equation}.}
+%  \label{fig:solution_heat_balance_eq}
+% \end{figure}
+% \begin{figure} 
+% \includegraphics[scale=0.9]{gfx/fig1_int_time.eps} 
+% \includegraphics[scale=0.9]{gfx/fig1_cooling.eps}
+% \caption{Solution to the heat balance equation~\eqref{eq:heat_balance_equation} during the integration time $V_b>0$, and during the cooling time $V_b=0$. }
+% \label{fig:solution_heat_balance_eq_splitted}
+% \end{figure}
+% \begin{figure}
+% \includegraphics[scale=0.9]{gfx/fig1_Vout_several_pulses.eps} 
+% \caption{Readout voltage~\eqref{eq:Vsamp_def}.}
+% \label{fig:Vout}
+% \end{figure}
+
+
+
+
 \begin{figure} 
- \includegraphics[scale=0.9]{gfx/fig1_several_pulses.eps} 
- \caption{Solution to the heat balance equation~\eqref{eq:heat_balance_equation}.}
- \label{fig:solution_heat_balance_eq}
-\end{figure}
-\begin{figure} 
+\includegraphics[scale=0.9]{gfx/fig1_several_pulses.eps} 
+\caption{Solution to the heat balance equation~\eqref{eq:heat_balance_equation}.} \label{fig:solution_heat_balance_eq}
 \includegraphics[scale=0.9]{gfx/fig1_int_time.eps} 
-\includegraphics[scale=0.9]{gfx/fig1_cooling.eps}
-\caption{Solution to the heat balance equation~\eqref{eq:heat_balance_equation} during the integration time $V_b>0$, and during the cooling time $V_b=0$. }
-\label{fig:solution_heat_balance_eq_splitted}
-\end{figure}
-\begin{figure}
+\includegraphics[scale=0.9]{gfx/fig1_cooling.eps} 
+\caption{Solution to the heat balance equation~\eqref{eq:heat_balance_equation} during the integration time $V_b>0$, and during the cooling time $V_b=0$. } \label{fig:solution_heat_balance_eq_splitted}
 \includegraphics[scale=0.9]{gfx/fig1_Vout_several_pulses.eps} 
-\caption{Readout voltage~\eqref{eq:Vsamp_def}.}
-\label{fig:Vout}
+\caption{Readout voltage~\eqref{eq:Vsamp_def}} \label{fig:Vout}
+\label{fig:noisysol}
 \end{figure}
+
+
+
 
 As we can see in Figure~\ref{fig:solution_heat_balance_eq}-\ref{fig:solution_heat_balance_eq_splitted}, the temperature of the bolometer does not only depend on the incoming IR radiation, namely the temperature of the object we are observing, but also on the bias voltage. In order to mitigate this phenomena, the frame-time $t_f$ is set much larger than the integration time $t_i$ to avoid overheat the bolometer. In particular the function temperature $T$ oscillates in the time (after very few pulses) around the temperature due to the incoming IR radiation. This also reflects in the readout, since $V_{samp}$ becomes constant, i.e., the bolometer has cached the temperature of the observed object.
 
