@@ -90,15 +90,18 @@ explained by Schottky for flicker noise in vacuum tubes~\cite{PhysRev.28.74}.
 % in metals.
 
 
+To generate the flicker noise in simulation there are several methods
+available, listed in~\cite{381848}.
+
 \subsection{Noise model and simulation scheme}
 
 To compensate for the noise in the read-out circuit, one first has to
 determine how noise enters the differential equation governing the
-behavior of the system. The simplest possible solution is of course to 
-add a noise term of a normally distributed character to the left hand side 
-in Equation~\eqref{eq:heat_balance_equation}, rendering the theory for 
+behavior of the system. The simplest possible solution is of course to
+add a noise term of a normally distributed character to the left hand side
+in Equation~\eqref{eq:heat_balance_equation}, rendering the theory for
 diffusion processes readily available. More precisely we rewrite Equation~\eqref{eq:heat_balance_equation}
-as 
+as
 \begin{align} \label{eq:heat_balance_equation_noise1}
  CdT&=(\frac{V_b(t)^2}{R(T)}+\varepsilon(P_t+P_s -2A_s \sigma T^4)-G_{leg}(T-T_s))dt + K(t)dW \\
  T(0)&=T_s	\nonumber
@@ -114,23 +117,23 @@ the bolometer resistance as
 \end{equation}
 where $V_0$ is the noise-less resistance over the voltage, and $\Delta
 V$ is a random variable representing the random fluctuations in the
-voltage. 
-%If there are several noise sources present in the resistance, 
+voltage.
+%If there are several noise sources present in the resistance,
 %we assume they can be modelled through a sum of stochastic variables
 %\begin{equation}
 %  \label{eq:randomvariable_transformation}
 %  V \rightarrow V_0 + \sum_i \Delta V_i.
 %\end{equation}
 
-We thus want noise to enter the heat equation in Equation~\eqref{eq:heat_balance_equation} 
-roughly as 
+We thus want noise to enter the heat equation in Equation~\eqref{eq:heat_balance_equation}
+roughly as
 \begin{equation}
   \label{eq:heat_balance_equation_noise}
   C\frac{dT}{dt}=\frac{(V_b(t) + \Delta V)^2}{R(T)}+ f(T),
 \end{equation}
 where $\Delta V$ is the added noise term, accounting for the
 fluctuations in the resistance $R(T)$ and $f(T)$ are the other terms
-in Equation~\eqref{eq:heat_balance_equation}. 
+in Equation~\eqref{eq:heat_balance_equation}.
 Expanding the square we get the equation
 \begin{equation}
   \label{eq:heat_balance_equation_noise_SDE1}
@@ -142,8 +145,8 @@ If the squared noise term is negligible in the limit, we are left with
   C\frac{dT}{dt}=\frac{1}{R(T)} (V_b^2(t) + 2 V_b(t) \Delta V  ) + f(T)
 \end{equation}
 Thus we chose $K(t)$ in Equation~\eqref{eq:heat_balance_equation_noise1}
-as $K(t) = 2 V_b(t) \sigma$, where $\sigma$ is a parameter to be calibrated or 
-physically motivated. The noisy heat development can now be simulated 
+as $K(t) = 2 V_b(t) \sigma$, where $\sigma$ is a parameter to be calibrated or
+physically motivated. The noisy heat development can now be simulated
 in a well defined setting, with the dynamics independent of step size $\Delta t$:
 
 \begin{align} \label{eq:heat_balance_equation_noise_discr}
@@ -151,7 +154,7 @@ in a well defined setting, with the dynamics independent of step size $\Delta t$
  T(0)&=T_s	\nonumber
 \end{align}
 
-where $W \sim N(0,1)$. 
+where $W \sim N(0,1)$.
 
 %\subsection{Discretization of the stochastic model}
 %The modified heat equation in~\eqref{eq:heat_balance_equation_noise}
