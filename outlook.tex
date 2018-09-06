@@ -1,24 +1,53 @@
 \section{Outlook and future extensions}
-\subsection{Noise process inclusion}
-In section 3 we went through the heuristic underlying the inclusion of noise in the model. This heuristic is however not entirely satisfactory. Although one can certainly argue for the negligibility of the squared noise term, it was dropped rather ad hoc. Neither did we account for the fact that the noise as inserted in the heuristics is subject to multiplication by a $dt$-term in the actual simulation, making it hard to establish a scaling scheme for the noise term with a well defined stochastic limit as step-size goes to 0. What we need in order to fully solve this matter is stochastic calculus.
 
-Consider thermal noise and assume that the bias voltage $V(t)$ can be described as a diffusion process. Thermal noise has a white noise behavior, so ideally, stochasticity around the mean of the bias voltage $V_{m}(t)$ should have white noise form. Unfortunately, white noise is not possible to write as a diffusion process. We therefore suggest that $V(t)$ is modelled as follows:
+\subsection{Noise process inclusion}
+In section 3 we went through the heuristic underlying the inclusion of
+noise in the model. This heuristic is however not entirely
+satisfactory. Although one can certainly argue for the negligibility
+of the squared noise term, it was dropped rather ad hoc. Neither did
+we account for the fact that the noise as inserted in the heuristics
+is subject to multiplication by a $dt$-term in the actual simulation,
+making it hard to establish a scaling scheme for the noise term with a
+well defined stochastic limit as step-size goes to 0. What we need in
+order to fully solve this matter is stochastic calculus.
+
+
+Consider thermal noise and assume that the bias voltage $V(t)$ can be
+described as a diffusion process. Thermal noise has a white noise
+behavior, so ideally, stochasticity around the mean of the bias
+voltage $V_{m}(t)$ should have white noise form. Unfortunately, white
+noise is not possible to write as a diffusion process. We therefore
+suggest that $V(t)$ is modelled as follows:
+
 
 \begin{align*}
 d V = k(V_{m}(t)-V(t)) + \sigma dW_{t}
 \end{align*}
 
-This is a Ornstein-Uhlenbeck process, which imposes a mean reverting mechanism. If the process is above $V_m(t)$, the drift term is negative and the process will tend to move towards $V_m(t)$. If the process is below $V_m(t)$, the reverse holds true. This makes correlation variance increase over time limited when comparing to the standard Brownian e.g. By adjusting the constants $\sigma$ and $k$, we can generate an erratic process dynamics with mean-adjusted noise much resembling white noise.
+This is a Ornstein-Uhlenbeck process, which imposes a mean reverting
+mechanism. If the process is above $V_m(t)$, the drift term is
+negative and the process will tend to move towards $V_m(t)$. If the
+process is below $V_m(t)$, the reverse holds true. This makes
+correlation variance increase over time limited when comparing to the
+standard Brownian e.g. By adjusting the constants $\sigma$ and $k$, we
+can generate an erratic process dynamics with mean-adjusted noise much
+resembling white noise.
 
-Let us consider what happens with the temperature dynamics in equation~\eqref{eq:heat_balance_equation} when we assume the function $V(t)$ has the stochastic dynamics as described above.
-We are going to use the Lemma of Ito, which states that if a diffusion process $X$ has dynamics $dX = \mu(t)dt + \sigma(t)dW_{t}$, then $f(X)$ (under certain regularity conditions) has dynamics
+
+Let us consider what happens with the temperature dynamics in
+equation~\eqref{eq:heat_balance_equation} when we assume the function
+$V(t)$ has the stochastic dynamics as described above. We are going to
+use the Lemma of Ito, which states that if a diffusion process $X$ has
+dynamics $dX = \mu(t)dt + \sigma(t)dW_{t}$, then $f(X)$ (under certain
+regularity conditions) has dynamics
+
 
 \begin{align*}
-d f = (\frac{\partial f}{ \partial t} + \mu(t)\frac{\partial f}{ \partial x} + \frac{\sigma(t)^{2}}{2}\frac{\partial^{2} f}{ \partial^{2} x})dt + \sigma(t)\frac{\partial f}{ \partial x}dW_{t}
+d f = \left(\frac{\partial f}{ \partial t} + \mu(t)\frac{\partial f}{ \partial x} + \frac{\sigma(t)^{2}}{2}\frac{\partial^{2} f}{ \partial^{2} x}\right)dt + \sigma(t)\frac{\partial f}{ \partial x}dW_{t}
 \end{align*}
 
 In our case $f(x) = x^{2}$, so $\frac{\partial f}{ \partial t} = 0$, $\frac{\partial f}{ \partial x} = 2x$, $\frac{\partial^{2} f}{ \partial^{2} x} = 2$. Moreover, $\mu(t) = K(V_{m}(t)-V(t))$, and $\sigma(t)=\sigma$.
-Plugging in these values in the Ito formula gives 
+Plugging in these values in the Ito formula gives
 
 \begin{align*}
 d f = ( k(V_{m}(t)-V(t))2V(t) + \sigma^{2})dt + \sigma(t)2V(t)dW_{t}
@@ -30,5 +59,18 @@ or
 d X(t)= ( k(V_{m}(t)-\sqrt{X(t)})2\sqrt{X(t)} + \sigma^{2})dt + \sigma(t)2\sqrt{X(t)}dW_{t}
 \end{align*}
 
-Note that the temperature dynamics constitute a well defined stochastic process with the deterministic $V$  replaced by the stochastic function $X$. The replacement operation turns the deterministic ODE into a diffusion process with another diffusion process ($X$) as drift coefficient. As $X$ is adapted to the same underlying filter as $T$, the process is well defined via the Ito integral. 
+Note that the temperature dynamics constitute a well defined
+stochastic process with the deterministic $V$  replaced by the
+stochastic function $X$. The replacement operation turns the
+deterministic ODE into a diffusion process with another diffusion
+process ($X$) as drift coefficient. As $X$ is adapted to the same
+underlying filter as $T$, the process is well defined via the Ito
+integral.
 
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% TeX-PDF-mode: 1
+%%% TeX-PDF-via-dvips-ps2pdf: 1
+%%% End:
