@@ -2,6 +2,9 @@
 %\setlength{\abovecaptionskip}{0pt}
 \section{Model and discretization}~\label{sec:model_disc}
 
+In this section, the heat equation for the bolometer and model for the
+readout circuit are described.
+
 \subsection{Heat equation for the bolometer}
 
 The bolometer is a resistor whose resistance depends on the temperature.
@@ -15,8 +18,9 @@ with the Stefan-Boltzmann radiation law of black bodies and the Joule heating la
 Here $V_b(t)$ is the input voltage, $\varepsilon_e$ is the material
 specific emissivity of the pixel, $P_t$ is the radiation power from
 the scene, $P_s$ is the radiation power from the substrate, $2A_s$ is
-the total surface area of the pixel (upside and downside), $\sigma$ is the Boltzmann constant, G
-is thermal conductivity of the supporting legs. The term
+the total surface area of the pixel (upside and downside), $\sigma$ is the Boltzmann constant, $G$
+is thermal conductivity of the supporting legs, and $T_s$ is the
+temperature of the substrate. The term
 $V_b(t)^2/R(T)$ is the power resulting from Joule heating, that is
 the power induced by the bias voltage over
 the pixel, and $2A_s \sigma T^4$ represents the radiation power
@@ -24,6 +28,17 @@ emitted from a pixel according to Stefan-Boltzmann's law. The
 latter also relates $P_t$ to the target temperature $T_t$ of a scene
 object as $P_t \propto T_t^4$.
 
+The temperature in the resistance $R$ will change the resistance and
+can be described by~\cite{xiu2010research}
+\begin{equation}
+  \label{eq:resistance_temperature}
+  R(T)=R_s e^{\alpha(T-T_s)},
+\end{equation}
+where $\alpha$ is a constant that depends on the material of the
+bolometer, and $R_s$ is the resistance of the bolometer and the
+substrate temperature.
+
+\subsection{Readout voltage equation}
 
 Each pixel of an IR camera can be modeled as the circuit in Figure~\ref{fig:circuit}.
 \begin{figure}[ht]
@@ -44,7 +59,7 @@ The readout signal is the voltage $V_{samp}$ across the capacitor C2 that we can
  V_{samp} =
  \frac{1}{\tilde C} \int_{n t_f}^{n t_f + t_i} \left( \frac{V_0}{R_S} - \frac{V_b(s)}{R(T(s))} \right) ds + E
 \end{align}
-where $R(T)$ is the value of the resistance of R2 as function of the temperature and $\tilde C$ is the capacitance of C2. In \cite{xiu2010research} this is modeled as $R(T)=R_S e^{\alpha(T-T_s)}$ where $\alpha$ is a constant that depends on the material of the bolometer. Clearly, in order to compute this integral, we need to know the temperature as function of the time. This relation is described  by the  \emph{heat balance equation} \eqref{eq:heat_balance_equation}.
+where $R(T)$ is the value of the resistance of R2 as function of the temperature and $\tilde C$ is the capacitance of C2. In \cite{xiu2010research} this is modeled as $R(T)=R_S e^{\alpha(T-T_s)}$ where $\alpha$ is a constant that depends on the material of the bolometer. Clearly, in order to compute this integral, we need to know the temperature as function of the time. This relation is described by~\eqref{eq:heat_balance_equation}.
 
 The output signal can therefore be simulated in the following way. We set an initial temperature $T_0$ for the bolometer and solve the heat balance equation~\eqref{eq:heat_balance_equation}. Then we compute the integral describing the readout signal~\eqref{eq:Vsamp_def}.
 
