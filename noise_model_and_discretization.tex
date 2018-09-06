@@ -32,11 +32,10 @@ power source in series with the resistance, see Figure~\ref{fig:johnsonEquivalen
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{gfx/JohnsonNoiseEquivalentCircuits.png}
-  \caption{Equivalent model for thermal noise in a resistor.}
-  \label{fig:johnsonEquivalentNoise}
+  \caption{Equivalent model for thermal noise in a resistor.}~\label{fig:johnsonEquivalentNoise}
 \end{figure}
 Due to the random nature of the additional power source, it is not
-possible to predict the instataneous voltage produced, but instead the
+possible to predict the instantaneous voltage produced, but instead the
 average behavior. Nyquist\cite{PhysRev.32.110} found that the power
 spectrum of thermal noise to be
 \begin{equation}
@@ -72,7 +71,7 @@ $\mathcal{N}(0, \sigma)$.
 
 \subsection{Flicker Noise}
 
-Another type of noise source that exists in circuits is the flicker
+Another type of noise source that exists in circuits is flicker
 noise, or also known as low frequency noise, 1/$f$ noise or pink noise. The power
 spectrum of the Flicker noise is
 \begin{equation}
@@ -85,10 +84,6 @@ One explanation of the occurrence of the flicker noise in resistors is
 that the charge carriers get trapped in capture sites of the
 conductor, and are then released with variable rates. This was first
 explained by Schottky for flicker noise in vacuum tubes~\cite{PhysRev.28.74}.
-% The noise occurs in all types of electrical devices and can be caused by
-% impurities in the conductors and fluctuating configurations of defects
-% in metals.
-
 
 To generate the flicker noise in simulation there are several methods
 available, listed in~\cite{381848}.
@@ -103,7 +98,9 @@ in Equation~\eqref{eq:heat_balance_equation}, rendering the theory for
 diffusion processes readily available. More precisely we rewrite Equation~\eqref{eq:heat_balance_equation}
 as
 \begin{align} \label{eq:heat_balance_equation_noise1}
- CdT&=(\frac{V_b(t)^2}{R(T)}+\varepsilon(P_t+P_s -2A_s \sigma T^4)-G_{leg}(T-T_s))dt + K(t)dW \\
+ CdT&=\left(\frac{V_b(t)^2}{R(T)}+\varepsilon(P_t+P_s -2A_s \sigma
+      T^4)-G_{leg}(T-T_s)
+      \right)dt + K(t)dW \\
  T(0)&=T_s	\nonumber
 \end{align}
 where $K$ is a function of time, and $W \sim N(0, dt)$.
@@ -118,12 +115,6 @@ the bolometer resistance as
 where $V_0$ is the noise-less resistance over the voltage, and $\Delta
 V$ is a random variable representing the random fluctuations in the
 voltage.
-%If there are several noise sources present in the resistance,
-%we assume they can be modelled through a sum of stochastic variables
-%\begin{equation}
-%  \label{eq:randomvariable_transformation}
-%  V \rightarrow V_0 + \sum_i \Delta V_i.
-%\end{equation}
 
 We thus want noise to enter the heat equation in Equation~\eqref{eq:heat_balance_equation}
 roughly as
@@ -150,32 +141,13 @@ physically motivated. The noisy heat development can now be simulated
 in a well defined setting, with the dynamics independent of step size $\Delta t$:
 
 \begin{align} \label{eq:heat_balance_equation_noise_discr}
- CT_{i+1}&=(\frac{V_b(t_{i})^2}{R(T_{i})}+\varepsilon(P_t+P_s -2A_s \sigma T^4)-G_{leg}(T-T_s))\Delta t + 2 V_b(t) \sigma \sqrt{\Delta t} W \\
+ CT_{i+1}&=\left(\frac{V_b(t_{i})^2}{R(T_{i})}+\varepsilon(P_t+P_s -2A_s \sigma T^4)-G_{leg}(T-T_s)\right)\Delta t + 2 V_b(t) \sigma \sqrt{\Delta t} W \\
  T(0)&=T_s	\nonumber
 \end{align}
 
 where $W \sim N(0,1)$.
 
-%\subsection{Discretization of the stochastic model}
-%The modified heat equation in~\eqref{eq:heat_balance_equation_noise}
-%needs to be discretized in the time domain to be numerically
-%simulated. We can rewrite~\eqref{eq:heat_balance_equation_noise} as
-%a stochastic differential equation
-%\begin{equation}
-%  \label{eq:heat_balance_equation_noise_SDE}
-%  CdT=\frac{1}{R(T)} (V_b^2(t) + 2 V_b(t) \Delta V + (\Delta V)^2)dt + f(T) dt,
-%\end{equation}
-%In the discretization scheme, the term $V_b(t) \Delta V dt $ is
-%written as $V_b(t) \Delta V \sqrt{\Delta t}$, where $\Delta t$ is the
-%step-length in the Euler scheme. This is done to keep the variance of
-%$\Delta V$ invariant of $\Delta t$. However, the term $(\Delta V)^2dt$
-%cannot be discretized in the same manner, and a simple approximation
-%is to set $(\Delta V)^2 dt \approx  \sigma^2$. Thus, discretized noisy
-%heat equation can be written as
-%\begin{equation}
-%  \label{eq:heat_balance_equation_noise_SDE_disc}
-%  C \Delta T=\frac{1}{R(T)} (V_b^2(t) \Delta t  + 2 V_b(t) \Delta V \sqrt{\Delta t}+ \sigma^{2}) + f(T) \Delta t
-%\end{equation}
+
 
 
 %%% Local Variables:
