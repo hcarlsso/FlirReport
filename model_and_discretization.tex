@@ -2,41 +2,43 @@
 %\setlength{\abovecaptionskip}{0pt}
 \section{Model and discretization}~\label{sec:model_disc}
 
-In this section, the heat equation for the bolometer and model for the
+In this section, the heat equation for the bolometer and a model for the
 readout circuit are described.
 
 \subsection{Heat equation for the bolometer}
 
-The bolometer is a resistor whose resistance depends on the temperature.
-The temperature of the bolometer as a function of the time (and the
-incoming IR radiation) can be described by the heat equation, combined
-with the Stefan-Boltzmann radiation law of black bodies and the Joule heating law
-\begin{align} \label{eq:heat_balance_equation}
- C\frac{dT}{dt}&=\frac{V_b(t)^2}{R(T)}+\varepsilon(P_t+P_s -2A_s \sigma T^4)-G_{leg}(T-T_s), \\
- T(0)&=T_s.	\nonumber
-\end{align}
-Here $V_b(t)$ is the input voltage, $\varepsilon_e$ is the material
-specific emissivity of the pixel, $P_t$ is the radiation power from
-the scene, $P_s$ is the radiation power from the substrate, $2A_s$ is
-the total surface area of the pixel (upside and downside), $\sigma$ is the Boltzmann constant, $G$
-is thermal conductivity of the supporting legs, and $T_s$ is the
-temperature of the substrate. The term
-$V_b(t)^2/R(T)$ is the power resulting from Joule heating, that is
-the power induced by the bias voltage over
-the pixel, and $2A_s \sigma T^4$ represents the radiation power
-emitted from a pixel according to Stefan-Boltzmann's law. The
-latter also relates $P_t$ to the target temperature $T_t$ of a scene
-object as $P_t \propto T_t^4$.
-
-The temperature in the resistance $R$ will change the resistance and
-can be described by~\cite{xiu2010research}
+The resistance $R(T)$ of the bolometer is a function of the
+temperature $T$, which for
+metals and semiconductors can be described by~\cite{xiu2010research}
 \begin{equation}
   \label{eq:resistance_temperature}
   R(T)=R_s e^{\alpha(T-T_s)},
 \end{equation}
 where $\alpha$ is a constant that depends on the material of the
-bolometer, and $R_s$ is the resistance of the bolometer and the
-substrate temperature.
+bolometer, and $R_s$ is the resistance of the bolometer at the
+substrate temperature $T_s$.
+
+The temperature of the bolometer as a function of time (and the
+incoming IR radiation) can be described by the heat equation, the
+Stefan-Boltzmann law and the Joule heating law
+\begin{align} \label{eq:heat_balance_equation}
+ C\frac{dT}{dt}&=\frac{V_b(t)^2}{R(T)}+\varepsilon(P_t+P_s -2A_s \sigma T^4)-G_{leg}(T-T_s), \\
+ T(0)&=T_s.	\nonumber
+\end{align}
+Here $V_b(t)$ is the input voltage, $\varepsilon_e$ is the material
+specific emissivity of the bolometer, $P_t$ is the radiation power from
+the scene, $P_s$ is the radiation power from the substrate, $2A_s$ is
+the total surface area of the bolometer (upside and downside), $\sigma$ is
+the Boltzmann constant, and $G$
+is thermal conductivity of the supporting legs. The term
+$V_b(t)^2/R(T)$ is the power resulting from Joule heating, that is
+the power induced by the bias voltage over
+the bolometer, and $2A_s \sigma T^4$ represents the radiation power
+emitted from the bolometer according to Stefan-Boltzmann's law. The
+latter also relates $P_t$ to the target temperature $T_t$ of a scene
+object as $P_t \propto T_t^4$.
+
+
 
 \subsection{Readout voltage equation}
 
@@ -46,48 +48,60 @@ Each pixel of an IR camera can be modeled as the circuit in Figure~\ref{fig:circ
 \caption{Circuit schematic that model a pixel of the IR camera generated with \url{https://www.digikey.com/schemeit}.}
 \label{fig:circuit}
 \end{figure}
-More precisely the bolometer corresponds to the resistor R2.
-
-The pixel of the IR camera works as follow: a bias voltage is applied as square signal. The voltage is a piecewise constant function defined as
+More precisely the resistance of the bolometer corresponds to the resistor
+R2. To measure the resistance $R(T)$ a bias voltage is applied over the resistance R2. The bias voltage, however, excessively heats up the
+bolometer, and consequently the bias voltage is periodically shut off
+to let the bolometer cool down. This results in an input signal for the bias
+voltage that is a periodic square signal
 \begin{align} \label{eq:Vb}
  V_b(t)&=\begin{cases} v_b & n t_f < t < n t_f + t_i \\
  0 &\mbox{ otherwise.}
  \end{cases} && n \in {\mathbb N}
 \end{align}
-The readout signal is the voltage $V_{samp}$ across the capacitor C2 that we can express, by using the Kirchhoff's law, as
+The resulting current from R2, is then subtracted from the current
+yielded from the resistance R1. This difference in current is then
+fed to the capacitor C2, which functions as an integrator. The voltage
+over the capacitor C2 is the readout voltage
+$V_{samp}$. Using Kirchhoff's law, this voltage is expressed as
 \begin{align} \label{eq:Vsamp_def}
  V_{samp} =
  \frac{1}{\tilde C} \int_{n t_f}^{n t_f + t_i} \left( \frac{V_0}{R_S} - \frac{V_b(s)}{R(T(s))} \right) ds + E
 \end{align}
-where $R(T)$ is the value of the resistance of R2 as function of the temperature and $\tilde C$ is the capacitance of C2. In \cite{xiu2010research} this is modeled as $R(T)=R_S e^{\alpha(T-T_s)}$ where $\alpha$ is a constant that depends on the material of the bolometer. Clearly, in order to compute this integral, we need to know the temperature as function of the time. This relation is described by~\eqref{eq:heat_balance_equation}.
+where $\tilde C$ is
+the capacitance of C2. Clearly, in order to compute this integral, we
+need to know the temperature as function of the time. This relation is
+described by~\eqref{eq:heat_balance_equation}. Notice that $V_{samp}$
+does not depend on $R(T)$ if $V_b = 0$, and thus it is only relevant to
+integrate up to time $t_i$.
 
-The output signal can therefore be simulated in the following way. We set an initial temperature $T_0$ for the bolometer and solve the heat balance equation~\eqref{eq:heat_balance_equation}. Then we compute the integral describing the readout signal~\eqref{eq:Vsamp_def}.
-
-
-\subsection{Illustrative example} \label{sec:example}
-A reasonable and realistic simulation of the bolometer response can be obtained by solving the equations~\eqref{eq:heat_balance_equation}-\eqref{eq:Vsamp_def} with the parameters and coefficients given in Table~\ref{tab:par_coeffs_example}. Moreover we have set $T_0=T_s$, $P_t=A_s \sigma (T_0+10)^4$ and $P_s=A_s \sigma T_s^4$.
-
-
-The solution of~\eqref{eq:heat_balance_equation} is illustrated in Figure~\ref{fig:solution_heat_balance_eq}. In the phase when the bias voltage is active, usually referred as \emph{integration time}, the temperature of the bolometer rises of circa $3K$. This is due to the fact that the current flowing through a component causes its overheat. When the bias voltage is not active, the temperature of the bolometer drops of circa $3K$, therefore we refer to this phase as \emph{cooling time}. See Figure~\ref{fig:solution_heat_balance_eq_splitted} for the illustration this such phenomena. The readout is illustrated in Figure~\ref{fig:Vout}.
-
-% \begin{figure}
-%  \includegraphics[scale=0.9]{gfx/fig1_several_pulses.eps}
-%  \caption{Solution to the heat balance equation~\eqref{eq:heat_balance_equation}.}
-%  \label{fig:solution_heat_balance_eq}
-% \end{figure}
-% \begin{figure}
-% \includegraphics[scale=0.9]{gfx/fig1_int_time.eps}
-% \includegraphics[scale=0.9]{gfx/fig1_cooling.eps}
-% \caption{Solution to the heat balance equation~\eqref{eq:heat_balance_equation} during the integration time $V_b>0$, and during the cooling time $V_b=0$. }
-% \label{fig:solution_heat_balance_eq_splitted}
-% \end{figure}
-% \begin{figure}
-% \includegraphics[scale=0.9]{gfx/fig1_Vout_several_pulses.eps}
-% \caption{Readout voltage~\eqref{eq:Vsamp_def}.}
-% \label{fig:Vout}
-% \end{figure}
+The output signal can therefore be simulated in the following way. We
+set an initial temperature $T_0$ for the bolometer and solve the heat
+balance equation~\eqref{eq:heat_balance_equation}. Then we compute the
+integral describing the readout signal~\eqref{eq:Vsamp_def}.
 
 
+\subsection{Illustrative example}~\label{sec:example}
+
+A reasonable and realistic simulation of the bolometer response can be
+obtained by solving the
+equations~\eqref{eq:heat_balance_equation}-\eqref{eq:Vsamp_def} with
+the parameters and coefficients given in
+Table~\ref{tab:par_coeffs_example}. Moreover we have set $T_0=T_s$,
+$P_t=A_s \sigma (T_0+10)^4$ and $P_s=A_s \sigma T_s^4$.
+
+
+
+The solution of~\eqref{eq:heat_balance_equation} is illustrated in
+Figure~\ref{fig:solution_heat_balance_eq}. In the phase when the bias
+voltage is active, usually referred as \emph{integration time}, the
+temperature of the bolometer rises of circa $3K$. This is due to the
+fact that the current flowing through a component causes its
+overheat. When the bias voltage is not active, the temperature of the
+bolometer drops of circa $3K$, therefore we refer to this phase as
+\emph{cooling time}. See
+Figure~\ref{fig:solution_heat_balance_eq_splitted} for the
+illustration this such phenomena. The readout is illustrated in
+Figure~\ref{fig:Vout}.
 
 
 \begin{figure}
@@ -102,9 +116,18 @@ The solution of~\eqref{eq:heat_balance_equation} is illustrated in Figure~\ref{f
 \end{figure}
 
 
+As we can see in
+Figure~\ref{fig:solution_heat_balance_eq}-\ref{fig:solution_heat_balance_eq_splitted},
+the temperature of the bolometer does not only depend on the incoming
+IR radiation, namely the temperature of the object we are observing,
+but also on the bias voltage. In order to mitigate this phenomena, the
+frame-time $t_f$ is set much larger than the integration time $t_i$ to
+avoid overheat the bolometer. In particular the function temperature
+$T$ oscillates in the time (after very few pulses) around the
+temperature due to the incoming IR radiation. This also reflects in
+the readout, since $V_{samp}$ becomes constant, i.e., the bolometer
+has cached the temperature of the observed object.
 
-
-As we can see in Figure~\ref{fig:solution_heat_balance_eq}-\ref{fig:solution_heat_balance_eq_splitted}, the temperature of the bolometer does not only depend on the incoming IR radiation, namely the temperature of the object we are observing, but also on the bias voltage. In order to mitigate this phenomena, the frame-time $t_f$ is set much larger than the integration time $t_i$ to avoid overheat the bolometer. In particular the function temperature $T$ oscillates in the time (after very few pulses) around the temperature due to the incoming IR radiation. This also reflects in the readout, since $V_{samp}$ becomes constant, i.e., the bolometer has cached the temperature of the observed object.
 
 \begin{center}
 \begin{table}[]
