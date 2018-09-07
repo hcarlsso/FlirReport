@@ -11,7 +11,7 @@ benchmarks if applicable.
 \subsection{Solution with noisy model}
 For the parameter $\sigma$, we set as a baseline
 \begin{align}
-\sigma = \sqrt{(4KT_sR(T_s))}
+\sigma = \sqrt{4KT_sR(T_s)}
 \end{align}
 where  $K$ is the Boltzmann constant. This value is of order $1e^{-7}$
 and is possible to motivate from a physical perspective. A detailed
@@ -20,7 +20,7 @@ explanation can be found in~\cite{WOOD199743}.
 We will however amplify or diminish $\sigma$ depending on our needs
 with a constant $d$. Thus we will use
 \begin{align}
-\sigma = d \sqrt{(4KT_sR(T_s))}
+\sigma = d \sqrt{4KT_sR(T_s)}
 \end{align}
 
 Plots from running the temperature simulation and succeeding
@@ -96,7 +96,7 @@ Figure~\ref{fig:pspec}, together with a $1/f$ deterministic curve. Indeed, the o
 
 \subsection{Linearity of the output signal}
 The linearity of the output signal as a function of incoming radiation effect is an assumption made during the calibration process at FLIR. The deviation of the signal from this assumption
-require recalibration of the camera at regular intervals. It is therefore of interest to investigate how this linearity is affected by factors possible to influence by design. For example, FLIR suggest that the design of the bias voltage curve during integration time might be important to achieve a higher degree of linearity in the output signal. In Figure~\ref{fig:out_vs_inrad}, output signals $V_{samp}$ over incoming effect $P_{t}$ are plotted for different designs of bias voltage curve. The different bias voltage curves tested are
+require re-calibration of the camera at regular intervals. It is therefore of interest to investigate how this linearity is affected by factors possible to influence by design. For example, FLIR suggest that the design of the bias voltage curve during integration time might be important to achieve a higher degree of linearity in the output signal. In Figure~\ref{fig:out_vs_inrad}, output signals $V_{samp}$ over incoming effect $P_{t}$ are plotted for different designs of bias voltage curve. The different bias voltage curves tested are
 
 \begin{enumerate}
 \item Constant voltage, as assumed in all previous simulations
@@ -136,8 +136,7 @@ Equation~\eqref{eq:heat_balance_equation_noise1} with a term of $1/f$
 spectrum. For a detailed explanation of how such a noise term is
 generated, see Section~\ref{sec:flicker-noise}. The power spectrum
 of the output noise with $1/f$ noise as input is seen in
-Figure~\ref{fig:power_spectrum_pink}. The output spectrum seems to be
-of $1/f$ character.
+Figure~\ref{fig:power_spectrum_pink}.
 %\begin{figure}[H]
 %\includegraphics[scale=0.9]{gfx/spectrum_white_noise.eps}
 %\caption{Power spectrum with white noise in the input. White noise in the input gives white noise in the output. \gm{Give better explanation in the caption} }
@@ -146,8 +145,7 @@ of $1/f$ character.
 
 \begin{figure}[H]
 \includegraphics[scale=0.9]{gfx/spectrum_pink_noise.eps}
-\caption{Power spectrum with $1/f^2$ noise in the input. $1/f^2$ noise
-  in the input gives $1/f$ noise in the output.}
+\caption{Power spectrum with $1/f$ noise in the input.}
 \label{fig:power_spectrum_pink}
 \end{figure}
 
