@@ -141,11 +141,11 @@ physically motivated. The noisy heat development can now be simulated
 in a well defined setting, with the dynamics independent of step size $\Delta t$:
 
 \begin{align} \label{eq:heat_balance_equation_noise_discr}
- CT_{i+1}&=\left(\frac{V_b(t_{i})^2}{R(T_{i})}+\varepsilon(P_t+P_s -2A_s \sigma T^4)-G_{leg}(T-T_s)\right)\Delta t + 2 V_b(t) \sigma \sqrt{\Delta t} W \\
+ CT_{i+1}&=\left(\frac{V_b(t_{i})^2}{R(T_{i})}+\varepsilon(P_t+P_s -2A_s \sigma T_i^4)-G_{leg}(T_i-T_s)\right)\Delta t + 2 V_b(t_i) \sigma \sqrt{\Delta t} W_i \\
  T(0)&=T_s	\nonumber
 \end{align}
 
-where $W \sim N(0,1)$.
+where $W_i \sim N(0,1)$.
 
 
 %%% Local Variables:
