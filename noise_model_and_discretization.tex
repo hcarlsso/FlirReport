@@ -95,16 +95,20 @@ determine how noise enters the differential equation governing the
 behavior of the system. The simplest possible solution is of course to
 add a noise term of a normally distributed character to the left hand side
 in Equation~\eqref{eq:heat_balance_equation}, rendering the theory for
-diffusion processes readily available. More precisely we rewrite Equation~\eqref{eq:heat_balance_equation}
-as
-\begin{align} \label{eq:heat_balance_equation_noise1}
- CdT&=\left(\frac{V_b(t)^2}{R(T)}+\varepsilon(P_t+P_s -2A_s \sigma
-      T^4)-G_{leg}(T-T_s)
-      \right)dt + K(t)dW \\
+diffusion processes readily available. More precisely we rewrite
+Equation~\eqref{eq:heat_balance_equation} on the form of a continuous
+time stochastic process for variable $T(t)$, i.e.,
+\begin{align} \label{eq:continuous_time stochastic_process}
+ dT&= \mu(T,t)dt  + K(T,t)dW \\
  T(0)&=T_s	\nonumber
 \end{align}
-where $K$ is a function of time, and $W \sim N(0, dt)$.
-The function $K(t)$ is chosen according to the following heuristic.
+where $K$ and $\mu$ are functions describing the fluctuations of the temperature
+increment and the drift in the temperature increment,
+respectively. The random variable $W$ denotes a Wiener process, i.e.,
+$W \sim N(0, dt)$. Thus, Equation~\eqref{eq:heat_balance_equation} is
+reformulated to the form of Equation~\eqref{eq:continuous_time
+  stochastic_process} and the function $K$ is chosen according to
+the following heuristic.
 We expect the noise in the output to be the cause of resistor fluctuations.
 Motivated by the setup for Figure~\ref{fig:johnsonEquivalentNoise}, we thus redefine the voltage over
 the bolometer resistance as
@@ -133,15 +137,32 @@ Expanding the square we get the equation
 If the squared noise term is negligible in the limit, we are left with
 \begin{equation}
   \label{eq:heat_balance_equation_noise_SDE2}
-  C\frac{dT}{dt}=\frac{1}{R(T)} (V_b^2(t) + 2 V_b(t) \Delta V  ) + f(T)
+  C\frac{dT}{dt}=\frac{1}{R(T)} (V_b^2(t) + 2 V_b(t) \Delta V  ) +
+  f(T) = \frac{V_b^2(t)}{R(T)} + f(T) +  \frac{2 V_b(t) \Delta V}{R(T)}.
 \end{equation}
-Thus we chose $K(t)$ in Equation~\eqref{eq:heat_balance_equation_noise1}
-as $K(t) = 2 V_b(t) \sigma$, where $\sigma$ is a parameter to be calibrated or
-physically motivated. The noisy heat development can now be simulated
+Thus, identifying the terms Equation~\eqref{eq:continuous_time stochastic_process} and Equation
+\eqref{eq:heat_balance_equation_noise_SDE2}, yields that the drift
+function is
+\begin{equation}
+  \label{eq:drift_function}
+  \mu(T,t) = \frac{1}{C} \left( \frac{V_b^2(t)}{R(T)} + f(T) \right),
+\end{equation}
+and
+\begin{equation}
+  \label{eq:variance_function}
+  K(T,t)dW = \frac{2 V_b(t) \Delta V}{CR(T)}.
+\end{equation}
+If we assume that $\Delta V$ is normally distributed with $\Delta V
+\sim N(0, \sigma^2 dt)$, where $\sigma$ is a parameter to be calibrated or
+physically motivated, then
+\begin{equation}
+  \label{eq:variance_function}
+  K(T,t) = \frac{2 V_b(t) \sigma }{CR(T)}.
+\end{equation}
+The noisy heat development can now be simulated
 in a well defined setting, with the dynamics independent of step size $\Delta t$:
-
 \begin{align} \label{eq:heat_balance_equation_noise_discr}
- CT_{i+1}&=\left(\frac{V_b(t_{i})^2}{R(T_{i})}+\varepsilon(P_t+P_s -2A_s \sigma T_i^4)-G_{leg}(T_i-T_s)\right)\Delta t + 2 V_b(t_i) \sigma \sqrt{\Delta t} W_i \\
+ CT_{i+1}&=\left(\frac{V_b(t_{i})^2}{R(T_{i})}+\varepsilon(P_t+P_s -2A_s \sigma T_i^4)-G_{leg}(T_i-T_s)\right)\Delta t + \frac{2 V_b(t_i) \sigma \sqrt{\Delta t}}{R(T_{i})} W_i \\
  T(0)&=T_s	\nonumber
 \end{align}
 
