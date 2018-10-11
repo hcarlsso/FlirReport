@@ -159,10 +159,25 @@ physically motivated, then
   \label{eq:variance_function}
   K(T,t) = \frac{2 V_b(t) \sigma }{CR(T)}.
 \end{equation}
+The approximate numerical solution of the continuous time stochastic
+process in Equation~\eqref{eq:continuous_time stochastic_process}
+using the Euler-Maruyama approximation~\cite{3540540628} is
+\begin{equation}
+  \label{eq:euler_maruyama_method}
+  T_{i+1}  = T_{i} + \mu(T,t) \Delta t  + K(T,t) \sqrt{\Delta t}W_i,
+\end{equation}
+where $\Delta t$ is the time step, and $W_i \sim N(0,1)$. Note
+that $\sqrt{\Delta t}W_i \sim N(0, \Delta t)$.
+
 The noisy heat development can now be simulated
-in a well defined setting, with the dynamics independent of step size $\Delta t$:
+in a well defined setting, with the dynamics of the simulated
+temperature that is independent of step size $\Delta t$:
 \begin{align} \label{eq:heat_balance_equation_noise_discr}
- CT_{i+1}&=\left(\frac{V_b(t_{i})^2}{R(T_{i})}+\varepsilon(P_t+P_s -2A_s \sigma T_i^4)-G_{leg}(T_i-T_s)\right)\Delta t + \frac{2 V_b(t_i) \sigma \sqrt{\Delta t}}{R(T_{i})} W_i \\
+  CT_{i+1}&=  CT_{i}  \\
+            & +
+              \left(\frac{V_b(t_{i})^2}{R(T_{i})}+\varepsilon(P_t+P_s
+              -2A_s \sigma T_i^4)-G_{leg}(T_i-T_s)\right)\Delta t  \\
+  & +  \frac{2 V_b(t_i) \sigma \sqrt{\Delta t}}{R(T_{i})} W_i \\
  T(0)&=T_s	\nonumber
 \end{align}
 
